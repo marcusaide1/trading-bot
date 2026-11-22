@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import uuid
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from bot.config import Settings
 from bot.exchange.client import BinanceExchangeClient
@@ -62,7 +62,7 @@ class OrderExecutor:
             return OrderResult(success=False, error=f"Position already exists for {symbol}")
 
         order_side = "buy" if side.lower() in ("long", "buy") else "sell"
-        ts = timestamp or datetime.now(timezone.utc)
+        ts = timestamp or datetime.now(UTC)
 
         try:
             if self.exchange_client is not None and self.exchange_client.is_live:
@@ -151,7 +151,7 @@ class OrderExecutor:
 
         pos = self.portfolio.positions[symbol]
         close_side = "sell" if pos.side == "long" else "buy"
-        ts = timestamp or datetime.now(timezone.utc)
+        ts = timestamp or datetime.now(UTC)
 
         try:
             if self.exchange_client is not None and self.exchange_client.is_live:

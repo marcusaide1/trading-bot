@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 import pandas as pd
@@ -91,10 +91,10 @@ class BacktestEngine:
 
         for i in range(warmup, len(data)):
             row = data.iloc[i]
-            ts_raw = row["timestamp"] if "timestamp" in data.columns else datetime.now(timezone.utc)
+            ts_raw = row["timestamp"] if "timestamp" in data.columns else datetime.now(UTC)
             ts = ts_raw.to_pydatetime() if hasattr(ts_raw, "to_pydatetime") else ts_raw
             if ts.tzinfo is None:
-                ts = ts.replace(tzinfo=timezone.utc)
+                ts = ts.replace(tzinfo=UTC)
 
             bar_high = float(row["high"])
             bar_low = float(row["low"])
@@ -207,7 +207,7 @@ class BacktestEngine:
             last_ts = (
                 last_row["timestamp"].to_pydatetime()
                 if "timestamp" in data.columns and hasattr(last_row["timestamp"], "to_pydatetime")
-                else datetime.now(timezone.utc)
+                else datetime.now(UTC)
             )
             executor.execute_exit(
                 symbol=symbol,

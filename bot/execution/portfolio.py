@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 
@@ -21,7 +21,7 @@ class Position:
     entry_fee: float = 0.0
     trailing_stop: float | None = None
     strategy: str = "composite"
-    opened_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    opened_at: datetime = field(default_factory=lambda: datetime.now(UTC))
 
     @property
     def notional_entry(self) -> float:
@@ -86,7 +86,7 @@ class TradeFill:
     strategy: str = "composite"
     mode: str = "paper"
     reason: str = ""
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -164,7 +164,7 @@ class Portfolio:
                 f"Insufficient cash: required ${total_debit:.2f}, available ${self.cash:.2f}"
             )
 
-        ts = timestamp or datetime.now(timezone.utc)
+        ts = timestamp or datetime.now(UTC)
         self.cash -= total_debit
         self.total_fees_paid += fee
 
@@ -215,7 +215,7 @@ class Portfolio:
             raise ValueError(f"No open position for {symbol}")
 
         pos = self.positions.pop(symbol)
-        ts = timestamp or datetime.now(timezone.utc)
+        ts = timestamp or datetime.now(UTC)
 
         if pos.side == "long":
             gross_pnl = (fill_price - pos.entry_price) * pos.quantity
@@ -255,7 +255,7 @@ class Portfolio:
             self.positions[symbol].current_price = float(price)
 
     def snapshot(self, timestamp: datetime | None = None) -> dict[str, Any]:
-        ts = timestamp or datetime.now(timezone.utc)
+        ts = timestamp or datetime.now(UTC)
         snap = {
             "timestamp": ts.isoformat(),
             "equity": round(self.equity, 4),

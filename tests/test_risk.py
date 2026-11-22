@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import pytest
 
@@ -73,7 +73,7 @@ def test_stop_loss_trigger_is_conservative_when_both_hit() -> None:
 
 
 def test_drawdown_guard_halts_on_drawdown_daily_loss_and_streak() -> None:
-    t0 = datetime(2026, 6, 1, 12, 0, tzinfo=timezone.utc)
+    t0 = datetime(2026, 6, 1, 12, 0, tzinfo=UTC)
     guard = DrawdownGuard(
         initial_equity=10000.0,
         max_drawdown_pct=0.10,

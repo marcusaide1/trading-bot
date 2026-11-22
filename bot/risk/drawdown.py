@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 
 
 @dataclass
@@ -33,7 +33,7 @@ class DrawdownGuard:
         self.peak_equity = float(initial_equity)
         self.current_equity = float(initial_equity)
         self.daily_start_equity = float(initial_equity)
-        self.current_day: date = datetime.now(timezone.utc).date()
+        self.current_day: date = datetime.now(UTC).date()
 
         self.max_drawdown_pct = max_drawdown_pct
         self.max_daily_loss_pct = max_daily_loss_pct
@@ -47,7 +47,7 @@ class DrawdownGuard:
         self, equity: float, timestamp: datetime | None = None
     ) -> DrawdownStatus:
         """Update current equity and trip circuit breakers if thresholds are breached."""
-        now_day = (timestamp or datetime.now(timezone.utc)).date()
+        now_day = (timestamp or datetime.now(UTC)).date()
         if now_day != self.current_day:
             self.current_day = now_day
             self.daily_start_equity = float(equity)

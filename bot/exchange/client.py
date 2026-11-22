@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from bot.config import Settings
@@ -134,7 +134,7 @@ class BinanceExchangeClient:
                 "price": fill_price,
                 "status": "closed",
                 "fee": {"cost": fill_price * quantity * self.settings.fee_rate, "currency": "USDT"},
-                "timestamp": int(datetime.now(timezone.utc).timestamp() * 1000),
+                "timestamp": int(datetime.now(UTC).timestamp() * 1000),
                 "mode": "paper",
             }
 

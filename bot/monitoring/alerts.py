@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import httpx
 
@@ -35,7 +35,7 @@ class AlertManager:
 
     def send(self, title: str, message: str, severity: str = "INFO") -> bool:
         """Send an alert to all configured channels. Returns True if at least one succeeded."""
-        timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+        timestamp = datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%S UTC")
         formatted = f"[{severity.upper()}] {title}\n{message}\nTime: {timestamp}"
 
         if not self.enabled:

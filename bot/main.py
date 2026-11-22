@@ -6,7 +6,7 @@ import argparse
 import json
 import signal
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from bot.backtesting.engine import BacktestEngine
@@ -114,7 +114,7 @@ class TradingBot:
                 state.equity = self.portfolio.equity
                 state.cash = self.portfolio.cash
                 state.peak_equity = self.drawdown_guard.peak_equity
-                state.updated_at = datetime.now(timezone.utc)
+                state.updated_at = datetime.now(UTC)
             db.commit()
             db.refresh(state)
             return state

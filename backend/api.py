@@ -153,7 +153,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     application.state.runtime = BotRuntimeManager(cfg)
     init_db(cfg.database_url)
 
-    from backend.routes import backtest, bot as bot_routes, market, trades
+    from backend.routes import backtest, market, trades
+    from backend.routes import bot as bot_routes
 
     application.include_router(bot_routes.router, prefix="/api/bot", tags=["Bot Control"])
     application.include_router(trades.router, prefix="/api", tags=["Portfolio & Trades"])

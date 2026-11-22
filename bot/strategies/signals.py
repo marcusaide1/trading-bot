@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from enum import Enum
+from datetime import UTC, datetime
+from enum import StrEnum
 from typing import TYPE_CHECKING, Any
 
 import pandas as pd
@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from bot.config import Settings
 
 
-class SignalAction(str, Enum):
+class SignalAction(StrEnum):
     BUY = "BUY"
     SELL = "SELL"
     HOLD = "HOLD"
@@ -33,7 +33,7 @@ class TradingSignal:
     atr: float | None = None
     stop_loss: float | None = None
     take_profit: float | None = None
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
     metadata: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
