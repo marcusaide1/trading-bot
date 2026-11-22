@@ -15,23 +15,23 @@ from bot.strategies.signals import SignalAction, create_strategy
 from bot.strategies.trend_following import TrendFollowingStrategy
 
 
-def _make_trend_df(direction: str = "up", bars: int = 120) -> pd.DataFrame:
+def _make_trend_df(direction: str = "up", bars: int = 100) -> pd.DataFrame:
     timestamps = pd.date_range("2026-01-01", periods=bars, freq="15min", tz="UTC")
+    # Realistic trend with oscillations + pullback + accelerating breakout
+    up_series = []
+    for i in range(bars):
+        if i < bars - 25:
+            up_series.append(100.0 + 0.25 * i + 1.5 * np.sin(i * 0.8))
+        elif i < bars - 12:
+            up_series.append(118.5 - 0.55 * (i - (bars - 25)) + 0.6 * np.sin(i))
+        else:
+            k = i - (bars - 13)
+            up_series.append(111.5 + 0.55 * k + 0.08 * k * k + (-0.4 if k % 3 == 0 else 0.0))
+
     if direction == "up":
-        # Mild pull-down then accelerating uptrend to trigger crossover + MACD expansion
-        base = np.concatenate(
-            [
-                np.linspace(110.0, 95.0, 40),
-                np.linspace(95.0, 130.0, bars - 40),
-            ]
-        )
+        base = np.array(up_series, dtype=float)
     elif direction == "down":
-        base = np.concatenate(
-            [
-                np.linspace(90.0, 115.0, 40),
-                np.linspace(115.0, 80.0, bars - 40),
-            ]
-        )
+        base = 230.0 - np.array(up_series, dtype=float)
     else:
         base = np.full(bars, 100.0)
 
