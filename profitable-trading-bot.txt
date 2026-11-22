@@ -1,0 +1,82 @@
+profitable-trading-bot/
+│
+├── bot/
+│   ├── main.py
+│   ├── config.py
+│   ├── exchange/
+│   │   ├── client.py
+│   │   └── market_data.py
+│   │
+│   ├── strategies/
+│   │   ├── trend_following.py
+│   │   ├── moving_average.py
+│   │   └── signals.py
+│   │
+│   ├── indicators/
+│   │   ├── rsi.py
+│   │   ├── macd.py
+│   │   └── ema.py
+│   │
+│   ├── risk/
+│   │   ├── position_sizing.py
+│   │   ├── stop_loss.py
+│   │   └── drawdown.py
+│   │
+│   ├── execution/
+│   │   ├── orders.py
+│   │   └── portfolio.py
+│   │
+│   ├── backtesting/
+│   │   ├── engine.py
+│   │   └── performance.py
+│   │
+│   └── monitoring/
+│       ├── logger.py
+│       └── alerts.py
+│
+├── backend/
+│   ├── api.py
+│   └── routes/
+│
+├── frontend/
+│
+├── database/
+│   ├── models.py
+│   └── migrations/
+│
+├── tests/
+│   ├── test_strategy.py
+│   ├── test_risk.py
+│   └── test_execution.py
+│
+├── docker/
+│   └── Dockerfile
+│
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+│
+├── .env.example
+├── .gitignore
+├── docker-compose.yml
+├── requirements.txt
+└── README.md
+
+
+
+2. Recommended technology stack
+Given your AWS, Linux, Docker and DevOps background, I recommend Python for the trading engine and Docker for deployment.
+
+Component	        Technology	                      Purpose
+Programming	        Python 3	                      Trading logic
+Exchange API	        Binance / Alpaca	              Market connection
+Data analysis	        Pandas, NumPy	                      Market analysis
+Indicators	        TA-Lib / pandas-ta	              Trading signals
+Strategy testing	Backtesting.py	                      Historical testing
+Backend	                FastAPI	                              Bot management API
+Database	        PostgreSQL	                      Trades and performance
+Cache	                Redis	                              Fast data and state
+Dashboard	        React	                              Monitoring interface
+Deployment	        Docker	                              Containerization
+CI/CD	                Github Actions	                      Automated deployment
+Hosting	                Ubuntu VPS / AWS EC2	              24/7 execution
